@@ -2,9 +2,15 @@ from flask import Flask
 import requests
 from cassandra.cluster import Cluster
 
+
 app = Flask(__name__)
 
-cluster = Cluster()
+
+with open('server.conf') as f:
+    content = f.readlines()
+
+
+cluster = Cluster([content[0].rstrip(),content[1].rstrip(),content[2].rstrip()])
 session = cluster.connect()
 
 
