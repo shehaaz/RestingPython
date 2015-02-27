@@ -28,4 +28,4 @@ def page_not_found(e):
 
 if __name__ == '__main__':
     app.debug = True
-    app.run(host='localhost')
+    app.run(host=content[3].rstrip())
