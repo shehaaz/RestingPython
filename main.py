@@ -39,7 +39,7 @@ def open_strm():
     s.open()
     return 'Opened Stream!'
 
-@app.route('/open_stream')
+@app.route('/close_stream')
 def close_strm():
     s.close()
     return 'closed Stream!'
