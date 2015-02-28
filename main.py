@@ -1,5 +1,4 @@
 import requests
-import csv
 from flask import Flask
 from cassandra.cluster import Cluster
 
@@ -10,7 +9,7 @@ app = Flask(__name__)
 with open('server.conf') as f:
     content = f.readlines()
 
-
+file = open('data.log', 'w')
 
 cluster = Cluster([content[0].rstrip(),content[1].rstrip(),content[2].rstrip()])
 session = cluster.connect()
@@ -23,9 +22,7 @@ def hello():
 
 @app.route('/data/<data>')
 def data(data):
-    with open('data.csv', 'wb') as f:
-        writer = csv.writer(f)
-        writer.writerows(data)
+    file.write(data +"\n")
     print data
     return data
 
