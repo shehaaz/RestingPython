@@ -61,7 +61,7 @@ def data(data):
     #STREAM TO GRAPH
     # Current time on x-axis, random numbers on y-axis
     x = date_time
-    y = int(array[0])
+    y = int(array[1])
 
     s.write(dict(x=x, y=y))
 
