@@ -6,7 +6,14 @@ from flask import Flask
 import flask
 from cassandra.cluster import Cluster
 
-
+# (*) To communicate with Plotly's server, sign in with credentials file
+import plotly.plotly as py
+# (*) Useful Python/Plotly tools
+import plotly.tools as tls
+# (*) Graph objects to piece together plots
+from plotly.graph_objs import *
+import plotly.plotly as py
+from plotly.graph_objs import *
 
 
 app = Flask(__name__)
@@ -18,6 +25,8 @@ with open('server.conf') as f:
 cluster = Cluster([content[0].rstrip(),content[1].rstrip(),content[2].rstrip()])
 session = cluster.connect()
 session.set_keyspace('hospital')
+s = py.Stream(content[4].rstrip())
+s.open()
 
 
 @app.route('/')
@@ -25,8 +34,19 @@ def hello():
     """Return a friendly HTTP greeting."""
     return 'Hello World!'
 
+@app.route('/open_stream')
+def open_strm():
+    s.open()
+    return 'Opened Stream!'
+
+@app.route('/open_stream')
+def close_strm():
+    s.close()
+    return 'closed Stream!'
+
 @app.route('/data/<data>')
 def data(data):
+    date_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     session.execute_async("""
         INSERT INTO hospital.data (patient_id, date, event_time, heart_rate)
         VALUES (
@@ -35,9 +55,18 @@ def data(data):
             %s,
             %s
         );
-    """, [date.today().isoformat(), datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), data])
+    """, [date.today().isoformat(), date_time, data])
+    array = data.split(",")
     print data
-    return date.today().isoformat() + " " +  datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " " + data
+    #STREAM TO GRAPH
+    # Current time on x-axis, random numbers on y-axis
+    x = date_time
+    y = int(array[0])
+
+    s.write(dict(x=x, y=y))
+
+    time.sleep(0.08)  # (!) plot a point every 80 ms, for smoother plotting
+    return date.today().isoformat() + " " +  date_time + " " + data
 
 @app.errorhandler(404)
 def page_not_found(e):
