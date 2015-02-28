@@ -10,8 +10,7 @@ app = Flask(__name__)
 with open('server.conf') as f:
     content = f.readlines()
 
-log = logging.getLogger()
-log.setLevel('INFO')
+logging.basicConfig(filename='data.log',level=logging.INFO)
 
 cluster = Cluster([content[0].rstrip(),content[1].rstrip(),content[2].rstrip()])
 session = cluster.connect()
@@ -24,6 +23,7 @@ def hello():
 
 @app.route('/data/<data>')
 def data(data):
+    logging.info(str(data))
     print data
     return data
 
