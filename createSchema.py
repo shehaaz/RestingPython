@@ -93,7 +93,7 @@ class SimpleClient:
 def main():
     logging.basicConfig()
     client = SimpleClient()
-    client.connect([content[0].rstrip()])
+    client.connect([content[1].rstrip()])
     #client.create_keyspace()
     #client.connect_keyspace()
     #client.create_schema()
