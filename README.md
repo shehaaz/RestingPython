@@ -14,3 +14,8 @@ It opens up port 9042 for CQL and 9160 for Thrift
 
 #Python installation
 pip install requirements.txt
+
+#Next steps
+* Send data to C*
+* Answer specific questions: e.g: When was my Temp. higher than 30c? What was my HR between 7:00am and 7:05am?
+* plot using plot.ly
