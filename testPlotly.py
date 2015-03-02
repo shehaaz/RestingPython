@@ -20,7 +20,7 @@ with open('server.conf') as f:
 #auto sign-in with credentials or use py.sign_in()
 stream = Stream(
     token=content[4].rstrip(),  # (!) link stream id to 'token' key
-    maxpoints=36000      # (!) keep a max of 80 pts on screen
+    maxpoints=90      # (!) keep a max of 90 pts on screen
 )
 
 heart_rate = Scatter(
