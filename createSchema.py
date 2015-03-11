@@ -30,7 +30,7 @@ class SimpleClient:
 
     def create_keyspace(self):
         self.session.execute("""CREATE KEYSPACE hospital WITH replication = {'class':'SimpleStrategy', 'replication_factor':3};""")
-        log.info('Simplex keyspace and schema created.')
+        log.info('hospital keyspace and schema created.')
 
     def connect_keyspace(self):
         self.session = cluster.connect('hospital')
@@ -80,14 +80,17 @@ class SimpleClient:
 
     def query_schema(self):
         results = self.session.execute("""
-    SELECT * FROM hospital.patients
-    WHERE patient_id = '1';
+    SELECT * FROM hospital.data
+    WHERE patient_id = '1'
+    AND date= '2015-02-28'
+    AND event_time > '2015-02-28 23:58:50'
+	AND event_time < '2015-02-28 23:58:55';
 """)
         print "%-30s\t%-20s\t%-20s\n%s" % \
-    ("name", "email", "address",
+    ("patient_id", "event_time", "heart rate",
         "-------------------------------+-----------------------+--------------------")
         for row in results:
-            print "%-30s\t%-20s\t%-20s" % (row.name, row.email, row.address)
+            print "%-30s\t%-20s\t%-20s" % (row.patient_id, row.event_time, row.heart_rate)
         log.info('Schema queried.')
 
 def main():
