@@ -56,10 +56,10 @@ def data(data):
     #         %s
     #     );
     # """, [date.today().isoformat(), date_time, data])
-    # array = data.split(",")
-    # print data
+    array = data.split(",")
+    print data
     #STREAM TO GRAPH
-    # Current time on x-axis, random numbers on y-axis
+    # Current time on x-axis, random numbers HR on y-axis
     x = date_time
     y = int(array[1])
 
