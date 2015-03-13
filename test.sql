@@ -1,9 +1,8 @@
             CREATE TABLE hospital.data (
                 patient_id text,
-                date text,
                 event_time timestamp,
                 heart_rate text,
-                PRIMARY KEY ((patient_id, date), event_time)
+                PRIMARY KEY (patient_id, event_time)
             ) WITH CLUSTERING ORDER BY (event_time DESC);
 
 
